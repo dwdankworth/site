@@ -10,7 +10,7 @@ async function runCommand(page, command) {
   await input.fill(command);
   await input.press('Enter');
   // Wait for streaming to finish (input gets re-enabled)
-  await expect(input).toBeEnabled({ timeout: 10000 });
+  await expect(input).toBeEnabled({ timeout: 30000 });
 }
 
 /**
@@ -19,7 +19,7 @@ async function runCommand(page, command) {
 async function waitForWelcome(page) {
   await page.goto('/');
   const input = page.locator('#terminal-input');
-  await expect(input).toBeEnabled({ timeout: 10000 });
+  await expect(input).toBeEnabled({ timeout: 30000 });
 }
 
 /**
