@@ -1,0 +1,143 @@
+{
+  "name": "Whitney Dankworth",
+  "title": "Data Science, Machine Learning Engineering, Agentic Workflows",
+  "welcome": "Welcome! I'm Whitney Dankworth — Data Scientist at Microsoft with 5+ years of experience scaling AI adoption, governance, and data-driven insights.\n\nThis portfolio is an interactive terminal. Type a command below to explore.\n\nType 'help' to see available commands.",
+
+  "bio": {
+    "summary": "Data science can be a catch-all for many tools. My experiences in the statistical, computer science, and business worlds give me the expertise to frame and then tell valuable stories, building the right solutions for the problem at hand. I strive for technical excellence as well as clear communication to all stakeholders — from engineers to financiers to executives. Every day is an opportunity for learning and growth and to inspire the same in others.",
+    "education": [
+      "B.S. Business and Political Economy, Computer Science — NYU Stern School of Business",
+      "Columbus Academy"
+    ],
+    "experience": [
+      {
+        "role": "Data Scientist II",
+        "company": "Microsoft",
+        "period": "Aug 2024 – Present",
+        "highlights": [
+          "Responsible for forecasting and analysis of Windows ecosystem health and growth. Pioneering first use of Temporal Fusion Transformers (TFT) in Windows to forecast customer retention, enabling more accurate and actionable insights for executive decision-making",
+          "Pioneered agentic workflows for time-series feature engineering, reducing time spent on feature engineering by 90% and enabling data scientists to focus on higher-level problem framing and model development",
+          "Created next-gen primary semantic data model for Windows devices across the company, enabling RAG-based AI agents across all of Windows data assets, modernizing 10+ year old infrastructure and transforming Windows data governance"
+        ]
+      },
+      {
+        "role": "Data Scientist",
+        "company": "Microsoft",
+        "period": "Aug 2021 – Aug 2024",
+        "highlights": [
+          "Forecast expected impact of executive decisions to monthly active devices and consumer lifetime value",
+          "Modeled expected post-update device health for the Windows 11 rollout using ensemble ML and pattern mining",
+          "Analysis and modeling of in-device campaign noise and impact on customer retention"
+        ]
+      },
+      {
+        "role": "Data Science Intern",
+        "company": "Microsoft",
+        "period": "Jun 2020 – Aug 2020",
+        "highlights": [
+          "Formulated methodology and delivered a POC for first-in-class ML modeling of Azure infrastructure health",
+          "COSINE (Core OS & Intelligent Edge) Data Science Team, Azure deployments"
+        ]
+      },
+      {
+        "role": "Analytics Intern",
+        "company": "Flatiron Media, LLC",
+        "period": "May 2019 – Dec 2019",
+        "highlights": [
+          "Built and maintained data pipelines to automate routine dashboarding",
+          "Manipulated 100MM+ rows of data using SQL for user taxonomy project",
+          "Classified 900+ advertisements for CTR, CPM, and revenue optimization"
+        ]
+      },
+      {
+        "role": "Research Intern",
+        "company": "UBS",
+        "period": "May 2018 – Aug 2018",
+        "highlights": [
+          "Used data analysis to assist advisors in rebalancing $50MM of discretionary client assets",
+          "Conducted investment research and advised financial advisors"
+        ]
+      }
+    ],
+    "interests": [
+      "AI governance and responsible deployment",
+      "Global business and political economy",
+      "Data storytelling and clear communication",
+      "Causal inference and experimentation",
+      "vim > emacs"
+    ]
+  },
+
+  "skills": {
+    "ML & AI": [
+      "Machine Learning", "Causal Inference", "Ensemble Methods",
+      "Pattern Mining", "NLP", "MCP", "RAG", "Agentic Workflows"
+    ],
+    "Data": [
+      "MapReduce", "Machine Learning Engineering", "Data Storytelling",
+      "Design for Agentic Workflows", "Semantic Data Modeling",
+       "Temporal Fusion Transformers (TFT)"
+    ],
+    "Languages": [
+      "Python", "SQL", "C#", "Java", "TypeScript", "Bash", "PowerShell"
+    ],
+    "Tools & Platforms": [
+      "Azure", "Databricks", "Git", "VS Code",
+      "Jupyter", "GitHub Actions", "Docker", "Ollama",
+      "Edge Computing"
+    ]
+  },
+
+  "projects": [
+    {
+      "id": 1,
+      "title": "Raspberry PI Email Summary Agent with Local Processing",
+      "description": "OpenClaw was an enticing offering, but security and privacy concerns prompted me to explore a local-first approach. I built a Raspberry Pi-based email summary agent that processes data locally and sends me a prioritized digest a few times per day. This project allowed me to experiment with local AI agent capabilities and edge computing while ensuring my data remains private and secure.",
+      "tech": ["Docker Compose", "Ollama", "Python"],
+      "link": "https://github.com/dwdankworth/PiEmailSummaries",
+      "status": "Public - try it out with the code on my GitHub!"
+    },
+    {
+      "id": 2,
+      "title": "Agentic Workflows for Time-Series Feature Engineering",
+      "description": "Allowing AI agents to assist data scientists in time-series feature engineering for traditional ML at massive scale. Reducing time spent on feature engineering by 90% and enabling data scientists to focus on higher-level problem framing and model development.",
+      "tech": ["MCP", "CLI Plugins", "RAG", "Agentic Skills", "C#"],
+      "link": "#",
+      "status": "Production — Microsoft Internal"
+    },
+    {
+      "id": 3,
+      "title": "Windows Semantic Data Model & AI Agents",
+      "description": "Ideated and executed creation of the next-gen primary semantic data model for Windows devices across the company. Led transformation and modernization of Windows data governance, enabling retrieval augmented generation (RAG) based AI agents across primary Windows data assets.",
+      "tech": ["Python", "C#", "RAG", "Semantic Modeling", "Data Governance"],
+      "link": "#",
+      "status": "Production — Microsoft Internal"
+    },
+    {
+      "id": 4,
+      "title": "ICU Post-Discharge Mortality Prediction",
+      "description": "Academic project predicting long-term mortality for ICU patients post-discharge. Applied data science and ML techniques to healthcare data as part of NYU Stern coursework in Data Science for Healthcare.",
+      "tech": ["Python", "scikit-learn", "Healthcare Analytics", "Statistical Modeling"],
+      "link": "#",
+      "status": "Academic Project"
+    }
+  ],
+
+  "contact": {
+    "github": {
+      "label": "GitHub",
+      "url": "https://github.com/dwdankworth",
+      "display": "github.com/dwdankworth"
+    },
+    "linkedin": {
+      "label": "LinkedIn",
+      "url": "https://www.linkedin.com/in/whitney-dankworth/",
+      "display": "linkedin.com/in/whitney-dankworth"
+    },
+    "email": {
+      "label": "Email",
+      "url": "mailto:dwdankworth@gmail.com",
+      "display": "dwdankworth@gmail.com"
+    }
+  }
+}
