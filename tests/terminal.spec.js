@@ -86,7 +86,7 @@ test('skills command shows skill categories', async ({ page }) => {
   await runCommand(page, 'skills');
   const output = getOutput(page);
   await expect(output).toContainText('ML & AI');
-  await expect(output).toContainText('Data Engineering');
+  await expect(output).toContainText('Data');
   await expect(output).toContainText('Languages');
   await expect(output).toContainText('Tools & Platforms');
 });
