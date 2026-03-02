@@ -77,7 +77,7 @@ test('project detail shows info and link', async ({ page }) => {
   await expect(output).toContainText('Tech Stack:');
   await expect(output).toContainText('Status:');
   // Project link should be a clickable anchor
-  const link = output.locator('a[href*="github.com"]');
+  const link = output.locator('a');
   await expect(link).toBeVisible();
 });
 

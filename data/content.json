@@ -1,58 +1,78 @@
 {
   "name": "Whitney Dankworth",
-  "title": "Data Science and Machine Learning Engineering",
-  "welcome": "Welcome. I'm Whitney Dankworth — Data Scientist and ML Engineer with 4 years of experience at Microsoft.\n\nThis portfolio is an interactive terminal. Type a command below to explore.\n\nType 'help' to see available commands.",
+  "title": "Data Scientist II @ Microsoft",
+  "welcome": "Welcome. I'm Whitney Dankworth — Data Scientist at Microsoft with 4+ years of experience scaling AI adoption, governance, and data-driven insights.\n\nThis portfolio is an interactive terminal. Type a command below to explore.\n\nType 'help' to see available commands.",
 
   "bio": {
-    "summary": "I'm a Data Scientist and Machine Learning Engineer at Microsoft with 4 years of experience building production ML systems, experimentation platforms, and data-driven products. I'm passionate about bringing research to production and building tools that make data science more efficient.",
+    "summary": "Data science can be a catch-all for many tools. My experiences in the statistical, computer science, and business worlds give me the expertise to frame and then tell valuable stories with the right tools for the job. I strive for technical excellence as well as clear communication to all stakeholders — from engineers to financiers to executives. Every day is an opportunity for learning and growth and to inspire the same in others.",
     "education": [
-      "[PLACEHOLDER] M.S. Computer Science — [University Name], [Year]",
-      "[PLACEHOLDER] B.S. Statistics — [University Name], [Year]"
+      "B.S. Business and Political Economy, Computer Science — NYU Stern School of Business",
+      "Columbus Academy"
     ],
     "experience": [
       {
-        "role": "[PLACEHOLDER] Senior Data Scientist",
+        "role": "Data Scientist II",
         "company": "Microsoft",
-        "period": "[PLACEHOLDER] 2022 – Present",
+        "period": "Aug 2021 – Present",
         "highlights": [
-          "[PLACEHOLDER] Built and deployed ML models serving 10M+ users",
-          "[PLACEHOLDER] Designed experimentation framework for A/B testing at scale",
-          "[PLACEHOLDER] Led cross-functional data science initiatives across 3 product teams"
+          "Ideated and executed creation of the next-gen primary semantic data model for Windows devices across the company, enabling RAG-based AI agents across all of Windows data assets",
+          "Led transformation and modernization of Windows data governance",
+          "Forecast expected impact of executive decisions to monthly active devices and consumer lifetime value",
+          "Modeled expected post-update device health for the Windows 11 rollout using ensemble ML and pattern mining",
+          "Analysis and modeling of in-device campaign noise and impact on customer retention"
         ]
       },
       {
-        "role": "[PLACEHOLDER] Data Scientist",
+        "role": "Data Science Intern",
         "company": "Microsoft",
-        "period": "[PLACEHOLDER] 2020 – 2022",
+        "period": "Jun 2020 – Aug 2020",
         "highlights": [
-          "[PLACEHOLDER] Developed NLP pipelines for content classification",
-          "[PLACEHOLDER] Built real-time anomaly detection systems",
-          "[PLACEHOLDER] Mentored 2 junior data scientists"
+          "Formulated methodology and delivered a POC for first-in-class ML modeling of Azure infrastructure health",
+          "COSINE (Core OS & Intelligent Edge) Data Science Team, Azure deployments"
+        ]
+      },
+      {
+        "role": "Analytics Intern",
+        "company": "Flatiron Media, LLC",
+        "period": "May 2019 – Dec 2019",
+        "highlights": [
+          "Built and maintained data pipelines to automate routine dashboarding",
+          "Manipulated 100MM+ rows of data using SQL for user taxonomy project",
+          "Classified 900+ advertisements for CTR, CPM, and revenue optimization"
+        ]
+      },
+      {
+        "role": "Research Intern",
+        "company": "UBS",
+        "period": "May 2018 – Aug 2018",
+        "highlights": [
+          "Used data analysis to assist advisors in rebalancing $50MM of discretionary client assets",
+          "Conducted investment research and advised financial advisors"
         ]
       }
     ],
     "interests": [
-      "[PLACEHOLDER] Applied ML and MLOps",
-      "[PLACEHOLDER] AI-augmented development workflows",
-      "[PLACEHOLDER] Open source tooling for data science",
-      "[PLACEHOLDER] Rock climbing and trail running"
+      "AI governance and responsible deployment",
+      "Global business and political economy",
+      "Data storytelling and clear communication",
+      "Causal inference and experimentation"
     ]
   },
 
   "skills": {
     "ML & AI": [
-      "PyTorch", "scikit-learn", "XGBoost", "Hugging Face Transformers",
-      "LLMs / Prompt Engineering", "MLflow", "ONNX"
+      "Machine Learning", "Causal Inference", "Ensemble Methods",
+      "Pattern Mining", "NLP", "RAG / AI Agents"
     ],
     "Data Engineering": [
-      "Apache Spark", "Azure Data Factory", "Databricks",
-      "SQL / T-SQL", "Airflow", "Delta Lake"
+      "Big Data Analytics", "Data Visualization", "Data Storytelling",
+      "ETL / Data Ingestion", "Semantic Data Modeling", "Delta Lake"
     ],
     "Languages": [
       "Python", "SQL", "R", "TypeScript", "Bash"
     ],
     "Tools & Platforms": [
-      "Azure ML", "Docker", "Git", "VS Code",
+      "Azure", "Databricks", "Git", "VS Code",
       "Jupyter", "Kubernetes", "GitHub Actions"
     ]
   },
@@ -60,27 +80,27 @@
   "projects": [
     {
       "id": 1,
-      "title": "[PLACEHOLDER] Real-Time Recommendation Engine",
-      "description": "[PLACEHOLDER] Built a real-time recommendation system using collaborative filtering and deep learning. Served 5M+ daily recommendations with <50ms latency. Deployed on Azure Kubernetes Service with MLflow model registry.",
-      "tech": ["Python", "PyTorch", "Azure ML", "Kubernetes", "Redis"],
-      "link": "https://github.com/dwdankworth/placeholder-project-1",
-      "status": "Production"
+      "title": "Windows Semantic Data Model & AI Agents",
+      "description": "Ideated and executed creation of the next-gen primary semantic data model for Windows devices across the company. Led transformation and modernization of Windows data governance, enabling retrieval augmented generation (RAG) based AI agents across all of Windows data assets.",
+      "tech": ["Python", "Azure", "RAG", "Semantic Modeling", "Data Governance"],
+      "link": "#",
+      "status": "Production — Microsoft Internal"
     },
     {
       "id": 2,
-      "title": "[PLACEHOLDER] NLP-Powered Document Intelligence",
-      "description": "[PLACEHOLDER] Developed a document understanding pipeline using transformer models for entity extraction, classification, and summarization. Reduced manual review time by 60% for a compliance team of 50+ analysts.",
-      "tech": ["Python", "Hugging Face", "Spark", "Azure Cognitive Services"],
-      "link": "https://github.com/dwdankworth/placeholder-project-2",
-      "status": "Production"
+      "title": "Azure Infrastructure Health Modeling",
+      "description": "Formulated methodology and delivered a proof-of-concept for first-in-class ML modeling of the health of Azure infrastructure. Built during internship on the COSINE (Core OS & Intelligent Edge) Data Science Team for Azure deployments.",
+      "tech": ["Python", "Azure", "Machine Learning", "Infrastructure Analytics"],
+      "link": "#",
+      "status": "POC — Microsoft Internal"
     },
     {
       "id": 3,
-      "title": "[PLACEHOLDER] Experimentation Platform",
-      "description": "[PLACEHOLDER] Designed and built an internal experimentation platform for A/B testing ML model variants. Supports automated statistical analysis, guardrail metrics, and progressive rollouts across 12 product surfaces.",
-      "tech": ["Python", "Databricks", "Delta Lake", "React", "FastAPI"],
-      "link": "https://github.com/dwdankworth/placeholder-project-3",
-      "status": "Internal Tool"
+      "title": "ICU Post-Discharge Mortality Prediction",
+      "description": "Academic project predicting long-term mortality for ICU patients post-discharge. Applied data science and ML techniques to healthcare data as part of NYU Stern coursework in Data Science for Healthcare.",
+      "tech": ["Python", "scikit-learn", "Healthcare Analytics", "Statistical Modeling"],
+      "link": "#",
+      "status": "Academic Project"
     }
   ],
 
@@ -92,8 +112,8 @@
     },
     "linkedin": {
       "label": "LinkedIn",
-      "url": "[PLACEHOLDER] https://linkedin.com/in/whitneydankworth",
-      "display": "[PLACEHOLDER] linkedin.com/in/whitneydankworth"
+      "url": "https://www.linkedin.com/in/whitney-dankworth/",
+      "display": "linkedin.com/in/whitney-dankworth"
     },
     "email": {
       "label": "Email",
