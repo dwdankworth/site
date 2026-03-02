@@ -1,0 +1,265 @@
+/* === Base Reset === */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #1a1a2e;
+  --bg-header: #16162a;
+  --text: #e8dcc8;
+  --accent: #d4845e;
+  --highlight: #e8915a;
+  --success: #7ec89b;
+  --muted: #8a8a9a;
+  --selection: #2d2d44;
+  --error: #e06c75;
+  --font: 'JetBrains Mono', monospace;
+}
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 14px;
+  line-height: 1.6;
+  overflow: hidden;
+}
+
+/* === Terminal Container === */
+#terminal {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+/* === Header Bar === */
+#terminal-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  background: var(--bg-header);
+  border-bottom: 1px solid var(--selection);
+  flex-shrink: 0;
+}
+
+.header-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.dot-red { background: #e06c75; }
+.dot-yellow { background: #e5c07b; }
+.dot-green { background: #7ec89b; }
+
+.header-title {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* === Output Area === */
+#terminal-output {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  scroll-behavior: smooth;
+}
+
+#terminal-output::-webkit-scrollbar {
+  width: 6px;
+}
+
+#terminal-output::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#terminal-output::-webkit-scrollbar-thumb {
+  background: var(--selection);
+  border-radius: 3px;
+}
+
+/* === Output Lines === */
+.output-line {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  margin-bottom: 2px;
+}
+
+.output-line.command-echo {
+  color: var(--muted);
+}
+
+.output-line.command-echo .prompt-echo {
+  color: var(--accent);
+}
+
+/* === Inline Formatting === */
+.text-accent { color: var(--accent); }
+.text-highlight { color: var(--highlight); }
+.text-success { color: var(--success); }
+.text-muted { color: var(--muted); }
+.text-error { color: var(--error); }
+.text-bold { font-weight: 700; }
+
+a {
+  color: var(--highlight);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+a:hover {
+  color: var(--accent);
+}
+
+/* === Section Headers === */
+.section-header {
+  color: var(--accent);
+  font-weight: 700;
+  margin-top: 8px;
+  margin-bottom: 4px;
+}
+
+.separator {
+  color: var(--selection);
+  margin: 4px 0;
+}
+
+/* === Input Area === */
+#terminal-input-area {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  border-top: 1px solid var(--selection);
+  background: var(--bg);
+  flex-shrink: 0;
+}
+
+.prompt {
+  color: var(--accent);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+#terminal-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 14px;
+  caret-color: var(--accent);
+}
+
+#terminal-input::selection {
+  background: var(--selection);
+}
+
+/* === Streaming Cursor === */
+.streaming-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 1.2em;
+  background: var(--accent);
+  vertical-align: text-bottom;
+  animation: blink 0.8s step-end infinite;
+  margin-left: 2px;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+/* === Mobile Chips === */
+.mobile-only {
+  display: none;
+}
+
+#mobile-chips {
+  padding: 8px 16px 12px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  background: var(--bg);
+  border-top: 1px solid var(--selection);
+}
+
+.chip {
+  background: var(--selection);
+  color: var(--text);
+  border: 1px solid var(--muted);
+  border-radius: 16px;
+  padding: 4px 14px;
+  font-family: var(--font);
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.chip:hover, .chip:active {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+}
+
+/* === Matrix Rain Canvas === */
+#matrix-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+/* === ASCII Art === */
+.ascii-art {
+  font-size: 12px;
+  line-height: 1.2;
+  color: var(--accent);
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+  html, body {
+    font-size: 12px;
+  }
+
+  #terminal {
+    max-width: 100%;
+  }
+
+  .mobile-only {
+    display: flex !important;
+  }
+
+  #terminal-output {
+    padding: 12px;
+  }
+
+  #terminal-input-area {
+    padding: 10px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  html, body {
+    font-size: 11px;
+  }
+
+  .header-title {
+    font-size: 10px;
+  }
+}

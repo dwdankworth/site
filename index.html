@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Whitney Dankworth — Data Science & MLE Portfolio</title>
+  <meta name="description" content="Whitney Dankworth — Data Science and Machine Learning Engineering. An interactive CLI-style portfolio.">
+  <meta property="og:title" content="Whitney Dankworth — Portfolio">
+  <meta property="og:description" content="An interactive CLI-style portfolio for a Data Scientist & ML Engineer.">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/terminal.css">
+</head>
+<body>
+  <div id="terminal">
+    <div id="terminal-header">
+      <div class="header-dots">
+        <span class="dot dot-red"></span>
+        <span class="dot dot-yellow"></span>
+        <span class="dot dot-green"></span>
+      </div>
+      <span class="header-title">danksite — visitor session</span>
+    </div>
+    <div id="terminal-output"></div>
+    <div id="terminal-input-area">
+      <span class="prompt">visitor@danksite ~ $&nbsp;</span>
+      <input type="text" id="terminal-input" autocomplete="off" autocapitalize="off" spellcheck="false" autofocus>
+    </div>
+    <div id="mobile-chips" class="mobile-only">
+      <button class="chip" data-cmd="help">help</button>
+      <button class="chip" data-cmd="bio">bio</button>
+      <button class="chip" data-cmd="projects">projects</button>
+      <button class="chip" data-cmd="skills">skills</button>
+      <button class="chip" data-cmd="contact">contact</button>
+      <button class="chip" data-cmd="clear">clear</button>
+    </div>
+  </div>
+
+  <script src="js/streaming.js"></script>
+  <script src="js/commands.js"></script>
+  <script src="js/easter-eggs.js"></script>
+  <script src="js/terminal.js"></script>
+</body>
+</html>

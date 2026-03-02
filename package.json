@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "name": "danksite",
+  "description": "Interactive CLI-style portfolio website",
+  "scripts": {
+    "test": "npx playwright test",
+    "test:report": "npx playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.50.0",
+    "serve": "^14.2.0"
+  }
+}
