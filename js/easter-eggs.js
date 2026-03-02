@@ -3,7 +3,7 @@
  */
 (() => {
   Commands.register('sudo', async () => {
-    return "Nice try. You don't have root access to my career. 🔒\n\nBut you *can* run `contact` to discuss opportunities.";
+    return "Nice try. You don't have root access to my career. \n\nBut you *can* run `contact` to discuss opportunities.";
   }, '', true);
 
   Commands.register('hire me', async () => {
@@ -30,7 +30,7 @@
 
   Commands.register('rm', async (args) => {
     if (args.join(' ').includes('-rf')) {
-      return "I appreciate the chaos energy, but no. 💥\n\nMy portfolio is immutable. Try `projects` instead.";
+      return "I appreciate the chaos energy, but no. \n\nMy portfolio is immutable. Try `projects` instead.";
     }
     return "rm: permission denied. This terminal is read-only (mostly).";
   }, '', true);
