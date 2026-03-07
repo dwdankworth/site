@@ -17,8 +17,9 @@ module.exports = defineConfig({
     { name: 'chromium', use: { browserName: 'chromium' } },
   ],
   webServer: {
-    command: 'npx serve . -l 8765 --no-clipboard',
+    command: 'trunk serve --port 8765',
     port: 8765,
+    timeout: 120000,
     reuseExistingServer: !process.env.CI,
   },
 });

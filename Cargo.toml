@@ -1,0 +1,46 @@
+[package]
+name = "danksite"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+wasm-bindgen = "0.2"
+wasm-bindgen-futures = "0.4"
+js-sys = "0.3"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+console_error_panic_hook = "0.1"
+
+[dependencies.web-sys]
+version = "0.3"
+features = [
+    "Window",
+    "Document",
+    "HtmlElement",
+    "HtmlInputElement",
+    "HtmlCanvasElement",
+    "CanvasRenderingContext2d",
+    "Element",
+    "Node",
+    "Text",
+    "NodeList",
+    "Event",
+    "KeyboardEvent",
+    "MouseEvent",
+    "Selection",
+    "Request",
+    "RequestInit",
+    "Response",
+    "Headers",
+    "CssStyleDeclaration",
+    "DomTokenList",
+    "HtmlCollection",
+    "console",
+]
+
+[profile.release]
+opt-level = "s"
+lto = true

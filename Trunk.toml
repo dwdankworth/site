@@ -1,0 +1,6 @@
+[serve]
+port = 8765
+open = false
+
+[build]
+dist = "dist"

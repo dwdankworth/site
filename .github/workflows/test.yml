@@ -7,27 +7,36 @@ on:
     branches: [main]
 
 jobs:
-  lint:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - uses: dtolnay/rust-toolchain@stable
         with:
-          node-version: 22
-          cache: npm
+          targets: wasm32-unknown-unknown
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Install trunk
+        run: cargo install trunk
 
-      - name: Lint
-        run: npm run lint
+      - name: Build WASM
+        run: trunk build
+
+      - name: Clippy
+        run: cargo clippy --target wasm32-unknown-unknown -- -D warnings
 
   test:
     runs-on: ubuntu-latest
-    needs: lint
+    needs: build
     steps:
       - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+
+      - name: Install trunk
+        run: cargo install trunk
 
       - uses: actions/setup-node@v4
         with:

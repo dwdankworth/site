@@ -12,6 +12,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/terminal.css">
+  <link data-trunk rel="rust" href="Cargo.toml" data-wasm-opt="s" />
+  <link data-trunk rel="copy-dir" href="data" />
+  <link data-trunk rel="copy-dir" href="css" />
 </head>
 <body>
   <div id="terminal">
@@ -38,9 +41,6 @@
     </div>
   </div>
 
-  <script src="js/streaming.js"></script>
-  <script src="js/commands.js"></script>
-  <script src="js/easter-eggs.js"></script>
-  <script src="js/terminal.js"></script>
+
 </body>
 </html>
