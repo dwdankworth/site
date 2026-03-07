@@ -206,12 +206,20 @@ fn token_to_node(document: &Document, token: &str) -> Node {
         if let Some(bracket_end) = token.find("](") {
             let text = &token[1..bracket_end];
             let url = &token[bracket_end + 2..token.len() - 1];
-            let a = document.create_element("a").unwrap();
-            a.set_attribute("href", url).unwrap();
-            a.set_attribute("target", "_blank").unwrap();
-            a.set_attribute("rel", "noopener noreferrer").unwrap();
-            a.set_text_content(Some(text));
-            return a.into();
+            // Only allow safe URL schemes to prevent javascript: XSS
+            let lower_url = url.to_ascii_lowercase();
+            if lower_url.starts_with("https://")
+                || lower_url.starts_with("http://")
+                || lower_url.starts_with("mailto:")
+                || lower_url.starts_with('#')
+            {
+                let a = document.create_element("a").unwrap();
+                a.set_attribute("href", url).unwrap();
+                a.set_attribute("target", "_blank").unwrap();
+                a.set_attribute("rel", "noopener noreferrer").unwrap();
+                a.set_text_content(Some(text));
+                return a.into();
+            }
         }
     }
 

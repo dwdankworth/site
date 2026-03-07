@@ -63,8 +63,16 @@ pub async fn load_content() -> Result<Rc<Content>, JsValue> {
     let window = web_sys::window().unwrap();
     let resp_value = JsFuture::from(window.fetch_with_str("data/content.json")).await?;
     let resp: web_sys::Response = resp_value.dyn_into()?;
+    if !resp.ok() {
+        return Err(JsValue::from_str(&format!(
+            "Failed to load content: HTTP {}",
+            resp.status()
+        )));
+    }
     let text = JsFuture::from(resp.text()?).await?;
-    let text_str = text.as_string().unwrap();
+    let text_str = text
+        .as_string()
+        .ok_or_else(|| JsValue::from_str("Failed to decode content as text"))?;
     let content: Content =
         serde_json::from_str(&text_str).map_err(|e| JsValue::from_str(&e.to_string()))?;
 

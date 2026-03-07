@@ -15,9 +15,18 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
         with:
           targets: wasm32-unknown-unknown
+          components: clippy
+
+      - name: Cache trunk binary
+        uses: actions/cache@v4
+        id: cache-trunk
+        with:
+          path: ~/.cargo/bin/trunk
+          key: trunk-${{ runner.os }}-0.21.14
 
       - name: Install trunk
-        run: cargo install trunk
+        if: steps.cache-trunk.outputs.cache-hit != 'true'
+        run: cargo install trunk --locked --version 0.21.14
 
       - name: Build WASM
         run: trunk build
@@ -35,8 +44,16 @@ jobs:
         with:
           targets: wasm32-unknown-unknown
 
+      - name: Cache trunk binary
+        uses: actions/cache@v4
+        id: cache-trunk
+        with:
+          path: ~/.cargo/bin/trunk
+          key: trunk-${{ runner.os }}-0.21.14
+
       - name: Install trunk
-        run: cargo install trunk
+        if: steps.cache-trunk.outputs.cache-hit != 'true'
+        run: cargo install trunk --locked --version 0.21.14
 
       - uses: actions/setup-node@v4
         with:

@@ -70,8 +70,12 @@ impl CommandRegistry {
             })
             .collect()
     }
+}
 
-
+impl Default for CommandRegistry {
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 // ---------------------------------------------------------------------------
