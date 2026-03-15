@@ -99,6 +99,14 @@
     },
     {
       "id": 2,
+      "title": "wheresmybus — Real-Time Transit from the Terminal",
+      "description": "I kept missing my bus home from work because I was too deep in AI CLI tools like Claude Code and Copilot CLI. Ironically, I used one to fix the problem. wheresmybus is a Go CLI that gives me real-time King County Metro arrivals without ever leaving the terminal. It auto-detects whether I'm at home or the office via WiFi and shows the right stop — so now I just type `wheresmybus` and never miss the bus again.",
+      "tech": ["Go", "OneBusAway API", "Cross-Platform WiFi Detection"],
+      "link": "https://github.com/dwdankworth/wheresmybus",
+      "status": "Public — Personal Tool"
+    },
+    {
+      "id": 3,
       "title": "Agentic Workflows for Time-Series Feature Engineering",
       "description": "Allowing AI agents to assist data scientists in time-series feature engineering for traditional ML at massive scale. Reducing time spent on feature engineering by 90% and enabling data scientists to focus on higher-level problem framing and model development.",
       "tech": ["MCP", "CLI Plugins", "RAG", "Agentic Skills", "C#"],
@@ -106,7 +114,7 @@
       "status": "Production — Microsoft Internal"
     },
     {
-      "id": 3,
+      "id": 4,
       "title": "Windows Semantic Data Model & AI Agents",
       "description": "Ideated and executed creation of the next-gen primary semantic data model for Windows devices across the company. Led transformation and modernization of Windows data governance, enabling retrieval augmented generation (RAG) based AI agents across primary Windows data assets.",
       "tech": ["Python", "C#", "RAG", "Semantic Modeling", "Data Governance"],
@@ -114,7 +122,7 @@
       "status": "Production — Microsoft Internal"
     },
     {
-      "id": 4,
+      "id": 5,
       "title": "ICU Post-Discharge Mortality Prediction",
       "description": "Academic project predicting long-term mortality for ICU patients post-discharge. Applied data science and ML techniques to healthcare data as part of NYU Stern coursework in Data Science for Healthcare.",
       "tech": ["Python", "scikit-learn", "Healthcare Analytics", "Statistical Modeling"],
