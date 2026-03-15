@@ -99,8 +99,8 @@
     },
     {
       "id": 2,
-      "title": "WheresMy Bus — Real-Time Transit from the Terminal",
-      "description": "I kept missing my bus home from work because I was too deep in AI CLI tools like Claude Code and Copilot CLI. Ironically, I used one to fix the problem. WheresMy Bus is a Go CLI that gives me real-time King County Metro arrivals without ever leaving the terminal. It auto-detects whether I'm at home or the office via WiFi and shows the right stop — so now I just type `wheresmybus` and never miss the bus again.",
+      "title": "wheresmybus — Real-Time Transit from the Terminal",
+      "description": "I kept missing my bus home from work because I was too deep in AI CLI tools like Claude Code and Copilot CLI. Ironically, I used one to fix the problem. wheresmybus is a Go CLI that gives me real-time King County Metro arrivals without ever leaving the terminal. It auto-detects whether I'm at home or the office via WiFi and shows the right stop — so now I just type `wheresmybus` and never miss the bus again.",
       "tech": ["Go", "OneBusAway API", "Cross-Platform WiFi Detection"],
       "link": "https://github.com/dwdankworth/wheresmybus",
       "status": "Public — Personal Tool"
