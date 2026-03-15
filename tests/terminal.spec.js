@@ -60,7 +60,7 @@ test('bio command shows profile sections', async ({ page }) => {
   await expect(output).toContainText('Interests');
 });
 
-test('projects command lists all projects', async ({ page }) => {
+test('projects command lists all projects with links', async ({ page }) => {
   await waitForWelcome(page);
   await runCommand(page, 'projects');
   const output = getOutput(page);
@@ -68,6 +68,11 @@ test('projects command lists all projects', async ({ page }) => {
   await expect(output).toContainText('[2]');
   await expect(output).toContainText('[3]');
   await expect(output).toContainText('project <number>');
+  // Projects with real links should render clickable anchors
+  const links = output.locator('a[href^="https://github.com/"]');
+  await expect(links.first()).toBeVisible();
+  const count = await links.count();
+  expect(count).toBeGreaterThanOrEqual(2);
 });
 
 test('project detail shows info and link', async ({ page }) => {
