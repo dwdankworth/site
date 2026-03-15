@@ -75,10 +75,13 @@ const Commands = (() => {
     c.projects.forEach((p) => {
       lines.push(`  **[${p.id}]** ${p.title}`);
       lines.push(`      ${p.tech.join(' • ')}  —  ${p.status}`);
+      if (p.link && p.link !== '#') {
+        lines.push(`      🔗 [${p.link}](${p.link})`);
+      }
       lines.push('');
     });
 
-    lines.push(`\n Type \`project <number>\` for details on a specific project.`);
+    lines.push(`\n Type \`project <number>\` for full details on a specific project.`);
     return lines.join('\n');
   }, 'List all projects');
 
