@@ -232,16 +232,26 @@ test('tab with ambiguous prefix shows candidates', async ({ page }) => {
   await expect(output).toContainText('project');
 });
 
-test('tab cycles project IDs after "project"', async ({ page }) => {
+test('tab cycles project IDs after "project "', async ({ page }) => {
   await waitForWelcome(page);
   // Load content first so the ID list is available
   await runCommand(page, 'projects');
   const input = page.locator('#terminal-input');
-  await input.fill('project');
+  // Trailing space commits to the `project` command and enters arg mode
+  await input.fill('project ');
   await input.press('Tab');
   await expect(input).toHaveValue('project 1');
   await input.press('Tab');
   await expect(input).toHaveValue('project 2');
+});
+
+test('tab on bare "project" completes to "projects", not arg cycle', async ({ page }) => {
+  await waitForWelcome(page);
+  const input = page.locator('#terminal-input');
+  await input.fill('project');
+  await input.press('Tab');
+  // The ghost shows `projects` as a prefix completion; Tab accepts it
+  await expect(input).toHaveValue('projects ');
 });
 
 // ─── A11y attributes ─────────────────────────────────────────────────────────

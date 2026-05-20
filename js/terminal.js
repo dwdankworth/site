@@ -406,9 +406,12 @@ const Terminal = (() => {
     const trimmed = raw.trim();
     if (!trimmed) return;
 
-    // Arg-level completion: `project <TAB>` cycles project IDs
+    // Arg-level completion: cycle project IDs only when the user has
+    // committed to the `project` command (trailing space or explicit arg).
     const parts = trimmed.split(/\s+/);
-    if (parts.length >= 1 && parts[0].toLowerCase() === 'project') {
+    const inProjectArgMode = parts[0].toLowerCase() === 'project'
+      && (parts.length > 1 || /\s$/.test(raw));
+    if (inProjectArgMode) {
       cycleProjectArg(raw, parts);
       return;
     }
@@ -424,11 +427,21 @@ const Terminal = (() => {
     }
 
     if (matches.length > 1) {
-      // Show candidates; complete to longest common prefix
       const lcp = longestCommonPrefix(matches);
       if (lcp.length > lower.length) {
+        // Make progress to the longest common prefix and surface the
+        // candidate list so the user knows there are multiple options.
         input.value = lcp;
+        const block = addOutputBlock();
+        block.classList.add('command-echo');
+        block.textContent = matches.join('   ');
+        addBlankLine();
+        scrollToBottom();
+        refreshGhost();
+        return;
       }
+      // LCP didn't progress — accept the displayed ghost (first match).
+      if (acceptGhost()) return;
       const block = addOutputBlock();
       block.classList.add('command-echo');
       block.textContent = matches.join('   ');

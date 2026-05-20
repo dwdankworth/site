@@ -3,7 +3,7 @@
  *   - cache-first for static assets (HTML, CSS, JS, font CSS)
  *   - stale-while-revalidate for data/content.json
  */
-const VERSION = 'danksite-v2';
+const VERSION = 'danksite-v3';
 const STATIC_ASSETS = [
   './',
   'index.html',
