@@ -5,15 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Whitney Dankworth — Data Science & MLE Portfolio</title>
   <meta name="description" content="Whitney Dankworth — Data Science and Machine Learning Engineering. An interactive CLI-style portfolio.">
+  <meta name="theme-color" content="#1a1a2e">
+  <link rel="canonical" href="https://dwdankworth.github.io/site/">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='10' fill='%231a1a2e'/><text x='10' y='44' font-family='JetBrains Mono,monospace' font-size='34' font-weight='700' fill='%23d4845e'>%3E_</text></svg>">
   <meta property="og:title" content="Whitney Dankworth — Portfolio">
   <meta property="og:description" content="An interactive CLI-style portfolio for a Data Scientist & ML Engineer.">
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://dwdankworth.github.io/site/">
+  <meta property="og:image" content="https://dwdankworth.github.io/site/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Whitney Dankworth — Portfolio">
+  <meta name="twitter:description" content="An interactive CLI-style portfolio for a Data Scientist & ML Engineer.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/terminal.css">
 </head>
 <body>
+  <h1 class="visually-hidden">Whitney Dankworth — Data Science &amp; ML Engineering portfolio</h1>
   <div id="terminal">
     <div id="terminal-header">
       <div class="header-dots">
@@ -23,12 +32,16 @@
       </div>
       <span class="header-title">danksite — visitor session</span>
     </div>
-    <div id="terminal-output"></div>
+    <div id="terminal-output" role="log" aria-live="polite" aria-atomic="false" aria-label="Terminal output"></div>
     <div id="terminal-input-area">
-      <span class="prompt">visitor@danksite ~ $&nbsp;</span>
-      <input type="text" id="terminal-input" autocomplete="off" autocapitalize="off" spellcheck="false" autofocus>
+      <span class="prompt" aria-hidden="true">visitor@danksite ~ $&nbsp;</span>
+      <div class="input-wrap">
+        <span id="terminal-ghost" class="ghost-mirror" aria-hidden="true"><span class="ghost-typed"></span><span class="ghost-tail"></span></span>
+        <input type="text" id="terminal-input" autocomplete="off" autocapitalize="off" spellcheck="false" autofocus aria-label="Terminal command input">
+      </div>
+      <span id="terminal-hint" class="ghost-hint" aria-hidden="true"></span>
     </div>
-    <div id="mobile-chips" class="mobile-only">
+    <div id="mobile-chips" class="mobile-only" role="toolbar" aria-label="Common commands">
       <button class="chip" data-cmd="help">help</button>
       <button class="chip" data-cmd="bio">bio</button>
       <button class="chip" data-cmd="projects">projects</button>
@@ -42,5 +55,16 @@
   <script src="js/commands.js"></script>
   <script src="js/easter-eggs.js"></script>
   <script src="js/terminal.js"></script>
+  <script>
+    // Register service worker for offline cache (https/localhost only)
+    if ('serviceWorker' in navigator) {
+      const isLocal = ['localhost', '127.0.0.1'].includes(location.hostname);
+      if (location.protocol === 'https:' || isLocal) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('sw.js').catch(() => {});
+        });
+      }
+    }
+  </script>
 </body>
 </html>

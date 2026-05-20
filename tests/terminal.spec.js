@@ -135,3 +135,132 @@ test('tab autocomplete completes partial command', async ({ page }) => {
   await input.press('Tab');
   await expect(input).toHaveValue('skills ');
 });
+
+// ─── History persistence ─────────────────────────────────────────────────────
+
+test('command history persists across reloads', async ({ page }) => {
+  test.setTimeout(45000);
+  await waitForWelcome(page);
+  await runCommand(page, 'contact');
+  await runCommand(page, 'help');
+  await page.reload();
+  const input = page.locator('#terminal-input');
+  await expect(input).toBeEnabled({ timeout: 30000 });
+  await input.press('ArrowUp');
+  await expect(input).toHaveValue('help');
+  await input.press('ArrowUp');
+  await expect(input).toHaveValue('contact');
+});
+
+// ─── Deep-link routing ───────────────────────────────────────────────────────
+
+test('hash deep-link runs matching command on load', async ({ page }) => {
+  await page.goto('/#projects');
+  const input = page.locator('#terminal-input');
+  await expect(input).toBeEnabled({ timeout: 30000 });
+  // Wait for the deep-linked command to also finish
+  await page.waitForTimeout(500);
+  await expect(input).toBeEnabled({ timeout: 30000 });
+  const output = getOutput(page);
+  await expect(output).toContainText('[1]');
+  await expect(output).toContainText('[2]');
+});
+
+test('project deep-link routes via hash', async ({ page }) => {
+  await page.goto('/#project/2');
+  const input = page.locator('#terminal-input');
+  await expect(input).toBeEnabled({ timeout: 30000 });
+  await page.waitForTimeout(500);
+  await expect(input).toBeEnabled({ timeout: 30000 });
+  const output = getOutput(page);
+  await expect(output).toContainText('Tech Stack:');
+});
+
+test('running a command updates the URL hash', async ({ page }) => {
+  await waitForWelcome(page);
+  await runCommand(page, 'skills');
+  await expect(page).toHaveURL(/#skills$/);
+});
+
+// ─── Share command ───────────────────────────────────────────────────────────
+
+test('share command shows current URL', async ({ page, context }) => {
+  await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+  await waitForWelcome(page);
+  await runCommand(page, 'bio');
+  await runCommand(page, 'share');
+  const output = getOutput(page);
+  await expect(output).toContainText('Share this view');
+  await expect(output).toContainText('#bio');
+});
+
+// ─── Search command ──────────────────────────────────────────────────────────
+
+test('search finds matching projects', async ({ page }) => {
+  await waitForWelcome(page);
+  await runCommand(page, 'search raspberry');
+  const output = getOutput(page);
+  await expect(output).toContainText('Results for');
+  await expect(output).toContainText('Raspberry');
+  await expect(output).toContainText('project 1');
+});
+
+test('search with no matches shows friendly message', async ({ page }) => {
+  await waitForWelcome(page);
+  await runCommand(page, 'search zzzzzzzzz');
+  const output = getOutput(page);
+  await expect(output).toContainText('No matches');
+});
+
+test('search with no query shows usage', async ({ page }) => {
+  await waitForWelcome(page);
+  await runCommand(page, 'search');
+  const output = getOutput(page);
+  await expect(output).toContainText('Usage:');
+});
+
+// ─── Tab completion improvements ─────────────────────────────────────────────
+
+test('tab with ambiguous prefix shows candidates', async ({ page }) => {
+  await waitForWelcome(page);
+  const input = page.locator('#terminal-input');
+  await input.fill('p');
+  await input.press('Tab');
+  const output = getOutput(page);
+  // Both `projects` and `project` start with `p`
+  await expect(output).toContainText('projects');
+  await expect(output).toContainText('project');
+});
+
+test('tab cycles project IDs after "project "', async ({ page }) => {
+  await waitForWelcome(page);
+  // Load content first so the ID list is available
+  await runCommand(page, 'projects');
+  const input = page.locator('#terminal-input');
+  // Trailing space commits to the `project` command and enters arg mode
+  await input.fill('project ');
+  await input.press('Tab');
+  await expect(input).toHaveValue('project 1');
+  await input.press('Tab');
+  await expect(input).toHaveValue('project 2');
+});
+
+test('tab on bare "project" completes to "projects", not arg cycle', async ({ page }) => {
+  await waitForWelcome(page);
+  const input = page.locator('#terminal-input');
+  await input.fill('project');
+  await input.press('Tab');
+  // The ghost shows `projects` as a prefix completion; Tab accepts it
+  await expect(input).toHaveValue('projects ');
+});
+
+// ─── A11y attributes ─────────────────────────────────────────────────────────
+
+test('terminal has accessible labels and live region', async ({ page }) => {
+  await waitForWelcome(page);
+  const input = page.locator('#terminal-input');
+  await expect(input).toHaveAttribute('aria-label', /command input/i);
+  const out = page.locator('#terminal-output');
+  await expect(out).toHaveAttribute('role', 'log');
+  await expect(out).toHaveAttribute('aria-live', 'polite');
+});

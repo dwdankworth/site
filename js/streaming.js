@@ -6,6 +6,12 @@ const StreamingEngine = (() => {
   const CHUNK_SIZE_MIN = 1;
   const CHUNK_SIZE_MAX = 3;
 
+  function reducedMotion() {
+    return typeof window !== 'undefined'
+      && window.matchMedia
+      && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }
+
   /**
    * Stream text into a target element, word by word.
    * Supports simple markup: **bold**, [text](url), `code`, ## headers
@@ -16,12 +22,21 @@ const StreamingEngine = (() => {
    */
   function stream(target, text, opts = {}) {
     const delay = opts.delay || DEFAULT_DELAY;
+    const instant = reducedMotion();
 
     return new Promise((resolve) => {
       const parsed = parseMarkup(text);
       const cursor = document.createElement('span');
       cursor.className = 'streaming-cursor';
       target.appendChild(cursor);
+
+      if (instant) {
+        for (const node of parsed) target.insertBefore(node, cursor);
+        cursor.remove();
+        scrollTerminal();
+        resolve();
+        return;
+      }
 
       let i = 0;
 
@@ -143,11 +158,20 @@ const StreamingEngine = (() => {
    */
   function streamNodes(target, nodeArray, opts = {}) {
     const delay = opts.delay || DEFAULT_DELAY;
+    const instant = reducedMotion();
 
     return new Promise((resolve) => {
       const cursor = document.createElement('span');
       cursor.className = 'streaming-cursor';
       target.appendChild(cursor);
+
+      if (instant) {
+        for (const node of nodeArray) target.insertBefore(node, cursor);
+        cursor.remove();
+        scrollTerminal();
+        resolve();
+        return;
+      }
 
       let i = 0;
 
