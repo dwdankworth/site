@@ -179,19 +179,71 @@ a:hover {
   background: var(--selection);
 }
 
-/* === Ghost / inline "did you mean" suggestion === */
-.ghost-suggestion {
-  color: var(--muted);
-  opacity: 0.6;
-  white-space: nowrap;
+/* === Inline ghost autocomplete (fish-style) === */
+.input-wrap {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+#terminal-input {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+.ghost-mirror {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
   pointer-events: none;
   font-family: var(--font);
   font-size: 14px;
-  margin-left: 4px;
+  line-height: 1;
+  white-space: pre;
+  overflow: hidden;
+  z-index: 0;
 }
 
-.ghost-suggestion:empty {
+.ghost-typed {
+  color: transparent;
+}
+
+.ghost-tail {
+  color: var(--muted);
+  opacity: 0.55;
+}
+
+.ghost-tail:empty {
   display: none;
+}
+
+.ghost-hint {
+  color: var(--muted);
+  opacity: 0.55;
+  font-size: 11px;
+  margin-left: 10px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.ghost-hint:empty {
+  display: none;
+}
+
+.ghost-hint kbd {
+  font-family: var(--font);
+  font-size: 10px;
+  background: var(--selection);
+  color: var(--text);
+  padding: 1px 5px;
+  border-radius: 3px;
+  border: 1px solid var(--muted);
+  opacity: 0.8;
+  margin-right: 4px;
 }
 
 /* === Streaming Cursor === */

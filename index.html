@@ -35,8 +35,11 @@
     <div id="terminal-output" role="log" aria-live="polite" aria-atomic="false" aria-label="Terminal output"></div>
     <div id="terminal-input-area">
       <span class="prompt" aria-hidden="true">visitor@danksite ~ $&nbsp;</span>
-      <input type="text" id="terminal-input" autocomplete="off" autocapitalize="off" spellcheck="false" autofocus aria-label="Terminal command input">
-      <span id="terminal-ghost" class="ghost-suggestion" aria-hidden="true"></span>
+      <div class="input-wrap">
+        <span id="terminal-ghost" class="ghost-mirror" aria-hidden="true"><span class="ghost-typed"></span><span class="ghost-tail"></span></span>
+        <input type="text" id="terminal-input" autocomplete="off" autocapitalize="off" spellcheck="false" autofocus aria-label="Terminal command input">
+      </div>
+      <span id="terminal-hint" class="ghost-hint" aria-hidden="true"></span>
     </div>
     <div id="mobile-chips" class="mobile-only" role="toolbar" aria-label="Common commands">
       <button class="chip" data-cmd="help">help</button>

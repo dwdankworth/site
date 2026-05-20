@@ -5,6 +5,9 @@ const Terminal = (() => {
   const output = document.getElementById('terminal-output');
   const input = document.getElementById('terminal-input');
   const ghost = document.getElementById('terminal-ghost');
+  const ghostTyped = ghost ? ghost.querySelector('.ghost-typed') : null;
+  const ghostTail = ghost ? ghost.querySelector('.ghost-tail') : null;
+  const ghostHint = document.getElementById('terminal-hint');
   const chips = document.querySelectorAll('.chip[data-cmd]');
 
   const HISTORY_KEY = 'danksite:history';
@@ -275,7 +278,32 @@ const Terminal = (() => {
   // === Ghost / inline suggestion ===
 
   function clearGhost() {
-    if (ghost) ghost.textContent = '';
+    if (ghostTyped) ghostTyped.textContent = '';
+    if (ghostTail) ghostTail.textContent = '';
+    if (ghost) {
+      delete ghost.dataset.full;
+      delete ghost.dataset.kind;
+    }
+    if (ghostHint) ghostHint.innerHTML = '';
+  }
+
+  function setGhost(full, kind) {
+    if (!ghost || !ghostTyped || !ghostTail) return;
+    const val = input.value;
+    ghost.dataset.full = full;
+    ghost.dataset.kind = kind;
+    if (kind === 'complete') {
+      // Mirror the typed portion (transparent) then show the remaining suffix
+      ghostTyped.textContent = val;
+      ghostTail.textContent = full.slice(val.length);
+    } else {
+      // Fuzzy "did you mean" — show as an inline hint after the input
+      ghostTyped.textContent = val;
+      ghostTail.textContent = `  → ${full}?`;
+    }
+    if (ghostHint) {
+      ghostHint.innerHTML = '<kbd>tab</kbd>to accept';
+    }
   }
 
   function refreshGhost() {
@@ -284,36 +312,29 @@ const Terminal = (() => {
     const trimmedLeft = val.replace(/^\s+/, '');
     if (!trimmedLeft || /\s/.test(trimmedLeft)) {
       // Only suggest for a single partial command word
-      ghost.textContent = '';
+      clearGhost();
       return;
     }
     const cmds = Commands.allVisible().map((c) => c.name);
     const lower = trimmedLeft.toLowerCase();
     // Prefix match wins
     let match = cmds.find((c) => c.startsWith(lower) && c !== lower);
+    let kind = 'complete';
     // Otherwise fall back to a fuzzy "did you mean"
-    if (!match) match = findClosestCommand(lower);
+    if (!match) {
+      match = findClosestCommand(lower);
+      kind = 'suggest';
+    }
     if (!match || match === lower) {
-      ghost.textContent = '';
+      clearGhost();
       return;
     }
-    // Show only the completion suffix when prefix-matching
-    if (match.startsWith(lower)) {
-      ghost.textContent = match.slice(trimmedLeft.length);
-      ghost.dataset.full = match;
-      ghost.dataset.kind = 'complete';
-    } else {
-      ghost.textContent = ` → ${match}?`;
-      ghost.dataset.full = match;
-      ghost.dataset.kind = 'suggest';
-    }
+    setGhost(match, kind);
   }
 
   function acceptGhost() {
-    if (!ghost || !ghost.textContent) return false;
-    const full = ghost.dataset.full;
-    if (!full) return false;
-    input.value = full + ' ';
+    if (!ghost || !ghost.dataset.full) return false;
+    input.value = ghost.dataset.full + ' ';
     clearGhost();
     return true;
   }
@@ -414,7 +435,11 @@ const Terminal = (() => {
       addBlankLine();
       scrollToBottom();
       refreshGhost();
+      return;
     }
+
+    // No prefix matches — fall back to accepting a fuzzy ghost suggestion
+    acceptGhost();
   }
 
   function cycleProjectArg(raw, parts) {
