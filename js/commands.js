@@ -12,6 +12,11 @@ const Commands = (() => {
     return content;
   }
 
+  // Synchronous accessor for already-loaded content (used by autocomplete)
+  function contentCache() {
+    return content;
+  }
+
   const registry = {};
 
   function register(name, handler, description, hidden = false) {
@@ -139,5 +144,102 @@ const Commands = (() => {
     return null; // Signal: no output to stream
   }, 'Clear the terminal');
 
-  return { register, get, allVisible, loadContent };
+  // === share ===
+  register('share', async () => {
+    const url = location.href;
+    let copied = false;
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(url);
+        copied = true;
+      }
+    } catch {
+      copied = false;
+    }
+    const lines = ['## Share this view\n'];
+    lines.push(`  **URL** [${url}](${url})`);
+    lines.push('');
+    lines.push(copied
+      ? ' ✅ Copied to clipboard.'
+      : ' ℹ️  Copy the URL above (clipboard access was unavailable).');
+    return lines.join('\n');
+  }, 'Copy a shareable deep-link to the current view');
+
+  // === search ===
+  register('search', async (args) => {
+    const query = (args || []).join(' ').trim();
+    if (!query) {
+      return 'Usage: `search <query>` — searches bio, projects, and skills.';
+    }
+    const c = await loadContent();
+    const q = query.toLowerCase();
+    const tokens = q.split(/\s+/).filter(Boolean);
+
+    const score = (text) => {
+      if (!text) return 0;
+      const t = String(text).toLowerCase();
+      let s = 0;
+      if (t.includes(q)) s += 10;
+      for (const tok of tokens) if (t.includes(tok)) s += 1;
+      return s;
+    };
+
+    const hits = [];
+
+    // Bio summary + interests
+    const bioScore = score(c.bio.summary) + c.bio.interests.reduce((a, i) => a + score(i), 0);
+    if (bioScore > 0) {
+      hits.push({ score: bioScore, command: 'bio', label: 'Bio', snippet: snippet(c.bio.summary, q) });
+    }
+
+    // Experience highlights
+    c.bio.experience.forEach((exp) => {
+      let s = score(exp.role) + score(exp.company);
+      let bestSnip = `${exp.role} — ${exp.company}`;
+      exp.highlights.forEach((h) => {
+        const hs = score(h);
+        s += hs;
+        if (hs > 0) bestSnip = snippet(h, q);
+      });
+      if (s > 0) hits.push({ score: s, command: 'bio', label: `Experience: ${exp.company}`, snippet: bestSnip });
+    });
+
+    // Projects
+    c.projects.forEach((p) => {
+      const s = score(p.title) * 2 + score(p.description) + p.tech.reduce((a, t) => a + score(t), 0);
+      if (s > 0) hits.push({ score: s, command: `project ${p.id}`, label: `Project [${p.id}] ${p.title}`, snippet: snippet(p.description, q) });
+    });
+
+    // Skills
+    Object.entries(c.skills).forEach(([cat, items]) => {
+      const matches = items.filter((it) => score(it) > 0);
+      if (matches.length) {
+        hits.push({ score: matches.length * 3, command: 'skills', label: `Skills: ${cat}`, snippet: matches.join(' • ') });
+      }
+    });
+
+    if (!hits.length) return `No matches for \`${query}\`.`;
+
+    hits.sort((a, b) => b.score - a.score);
+    const lines = [`## Results for "${query}"\n`];
+    hits.slice(0, 10).forEach((h) => {
+      lines.push(`  **${h.label}**`);
+      if (h.snippet) lines.push(`    ${h.snippet}`);
+      lines.push(`    → run \`${h.command}\` for more`);
+      lines.push('');
+    });
+    return lines.join('\n');
+  }, 'Search bio, projects, and skills — usage: search <query>');
+
+  function snippet(text, query) {
+    if (!text) return '';
+    const t = String(text);
+    const idx = t.toLowerCase().indexOf(query.toLowerCase());
+    if (idx < 0) return t.length > 120 ? t.slice(0, 117) + '…' : t;
+    const start = Math.max(0, idx - 40);
+    const end = Math.min(t.length, idx + query.length + 60);
+    return (start > 0 ? '…' : '') + t.slice(start, end) + (end < t.length ? '…' : '');
+  }
+
+  return { register, get, allVisible, loadContent, contentCache };
 })();

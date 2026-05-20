@@ -4,11 +4,80 @@
 const Terminal = (() => {
   const output = document.getElementById('terminal-output');
   const input = document.getElementById('terminal-input');
+  const ghost = document.getElementById('terminal-ghost');
   const chips = document.querySelectorAll('.chip[data-cmd]');
 
-  const history = [];
+  const HISTORY_KEY = 'danksite:history';
+  const HISTORY_CAP = 100;
+  const history = loadHistory();
   let historyIdx = -1;
   let isStreaming = false;
+  let suppressHashSync = false;
+
+  function loadHistory() {
+    try {
+      const raw = localStorage.getItem(HISTORY_KEY);
+      if (!raw) return [];
+      const arr = JSON.parse(raw);
+      return Array.isArray(arr) ? arr.slice(0, HISTORY_CAP) : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function saveHistory() {
+    try {
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(history.slice(0, HISTORY_CAP)));
+    } catch {
+      // localStorage may be disabled; ignore
+    }
+  }
+
+  // === Deep-link helpers ===
+
+  function commandToHash(cmd) {
+    const trimmed = cmd.trim();
+    if (!trimmed) return '';
+    const parts = trimmed.split(/\s+/);
+    const name = parts[0].toLowerCase();
+    if (name === 'project' && parts[1]) return `#project/${parts[1]}`;
+    if (name === 'search' && parts.length > 1) return `#search/${encodeURIComponent(parts.slice(1).join(' '))}`;
+    return `#${name}`;
+  }
+
+  function hashToCommand(hash) {
+    if (!hash || hash === '#') return null;
+    const raw = hash.replace(/^#/, '');
+    if (!raw) return null;
+    const [head, ...rest] = raw.split('/');
+    const name = head.toLowerCase();
+    if (name === 'project' && rest[0]) return `project ${rest[0]}`;
+    if (name === 'search' && rest.length) return `search ${decodeURIComponent(rest.join('/'))}`;
+    if (Commands.get(name)) return name;
+    return null;
+  }
+
+  // Commands that shouldn't change the URL (utilities / ephemeral output)
+  const NO_HASH_SYNC = new Set(['clear', 'share', 'help']);
+
+  function updateHash(cmd) {
+    if (suppressHashSync) return;
+    const name = cmd.trim().split(/\s+/)[0].toLowerCase();
+    if (NO_HASH_SYNC.has(name)) return;
+    const hash = commandToHash(cmd);
+    if (!hash) return;
+    if (location.hash === hash) return;
+    try {
+      history_replaceState(hash);
+    } catch {
+      // ignore
+    }
+  }
+
+  // Indirect to avoid shadowing the `history` array with global history
+  function history_replaceState(hash) {
+    window.history.replaceState(null, '', hash);
+  }
 
   // === Output helpers ===
 
@@ -88,13 +157,21 @@ const Terminal = (() => {
     const trimmed = rawInput.trim();
     if (!trimmed) return;
 
-    // Add to history
-    history.unshift(trimmed);
+    // Add to history (dedupe consecutive; skip when replaying from URL hash)
+    if (!suppressHashSync && history[0] !== trimmed) {
+      history.unshift(trimmed);
+      if (history.length > HISTORY_CAP) history.length = HISTORY_CAP;
+      saveHistory();
+    }
     historyIdx = -1;
+    clearGhost();
 
     // Echo the command
     echoCommand(trimmed);
     addBlankLine();
+
+    // Sync URL hash so the command is shareable
+    updateHash(trimmed);
 
     // Parse command and args
     const parts = trimmed.split(/\s+/);
@@ -195,6 +272,56 @@ const Terminal = (() => {
 
   // === Input handling ===
 
+  // === Ghost / inline suggestion ===
+
+  function clearGhost() {
+    if (ghost) ghost.textContent = '';
+  }
+
+  function refreshGhost() {
+    if (!ghost) return;
+    const val = input.value;
+    const trimmedLeft = val.replace(/^\s+/, '');
+    if (!trimmedLeft || /\s/.test(trimmedLeft)) {
+      // Only suggest for a single partial command word
+      ghost.textContent = '';
+      return;
+    }
+    const cmds = Commands.allVisible().map((c) => c.name);
+    const lower = trimmedLeft.toLowerCase();
+    // Prefix match wins
+    let match = cmds.find((c) => c.startsWith(lower) && c !== lower);
+    // Otherwise fall back to a fuzzy "did you mean"
+    if (!match) match = findClosestCommand(lower);
+    if (!match || match === lower) {
+      ghost.textContent = '';
+      return;
+    }
+    // Show only the completion suffix when prefix-matching
+    if (match.startsWith(lower)) {
+      ghost.textContent = match.slice(trimmedLeft.length);
+      ghost.dataset.full = match;
+      ghost.dataset.kind = 'complete';
+    } else {
+      ghost.textContent = ` → ${match}?`;
+      ghost.dataset.full = match;
+      ghost.dataset.kind = 'suggest';
+    }
+  }
+
+  function acceptGhost() {
+    if (!ghost || !ghost.textContent) return false;
+    const full = ghost.dataset.full;
+    if (!full) return false;
+    input.value = full + ' ';
+    clearGhost();
+    return true;
+  }
+
+  input.addEventListener('input', () => {
+    if (!isStreaming) refreshGhost();
+  });
+
   input.addEventListener('keydown', (e) => {
     if (isStreaming) {
       e.preventDefault();
@@ -205,7 +332,9 @@ const Terminal = (() => {
       e.preventDefault();
       const val = input.value;
       input.value = '';
+      clearGhost();
       execute(val);
+      return;
     }
 
     if (e.key === 'ArrowUp') {
@@ -213,7 +342,9 @@ const Terminal = (() => {
       if (historyIdx < history.length - 1) {
         historyIdx++;
         input.value = history[historyIdx];
+        clearGhost();
       }
+      return;
     }
 
     if (e.key === 'ArrowDown') {
@@ -225,22 +356,97 @@ const Terminal = (() => {
         historyIdx = -1;
         input.value = '';
       }
+      clearGhost();
+      return;
+    }
+
+    // Accept ghost suggestion with Right/End at end of input
+    if ((e.key === 'ArrowRight' || e.key === 'End') && ghost && ghost.textContent) {
+      const atEnd = input.selectionStart === input.value.length && input.selectionEnd === input.value.length;
+      if (atEnd && acceptGhost()) {
+        e.preventDefault();
+        return;
+      }
     }
 
     // Tab autocomplete
     if (e.key === 'Tab') {
       e.preventDefault();
-      const partial = input.value.trim().toLowerCase();
-      if (!partial) return;
+      handleTab();
+    }
 
-      const cmds = Commands.allVisible().map(c => c.name);
-      const matches = cmds.filter(c => c.startsWith(partial));
-
-      if (matches.length === 1) {
-        input.value = matches[0] + ' ';
-      }
+    if (e.key === 'Escape') {
+      clearGhost();
     }
   });
+
+  function handleTab() {
+    const raw = input.value;
+    const trimmed = raw.trim();
+    if (!trimmed) return;
+
+    // Arg-level completion: `project <TAB>` cycles project IDs
+    const parts = trimmed.split(/\s+/);
+    if (parts.length >= 1 && parts[0].toLowerCase() === 'project') {
+      cycleProjectArg(raw, parts);
+      return;
+    }
+
+    const cmds = Commands.allVisible().map((c) => c.name);
+    const lower = trimmed.toLowerCase();
+    const matches = cmds.filter((c) => c.startsWith(lower));
+
+    if (matches.length === 1) {
+      input.value = matches[0] + ' ';
+      clearGhost();
+      return;
+    }
+
+    if (matches.length > 1) {
+      // Show candidates; complete to longest common prefix
+      const lcp = longestCommonPrefix(matches);
+      if (lcp.length > lower.length) {
+        input.value = lcp;
+      }
+      const block = addOutputBlock();
+      block.classList.add('command-echo');
+      block.textContent = matches.join('   ');
+      addBlankLine();
+      scrollToBottom();
+      refreshGhost();
+    }
+  }
+
+  function cycleProjectArg(raw, parts) {
+    // Try to read project IDs from cached content
+    const c = Commands.contentCache && Commands.contentCache();
+    if (!c || !c.projects) {
+      // Fall back to just appending a space if we don't have data yet
+      if (!/\s$/.test(raw)) input.value = raw + ' ';
+      return;
+    }
+    const ids = c.projects.map((p) => String(p.id));
+    if (parts.length === 1) {
+      input.value = `project ${ids[0]}`;
+      return;
+    }
+    const current = parts[1];
+    const idx = ids.indexOf(current);
+    const next = ids[(idx + 1) % ids.length];
+    input.value = `project ${next}`;
+  }
+
+  function longestCommonPrefix(arr) {
+    if (!arr.length) return '';
+    let prefix = arr[0];
+    for (let i = 1; i < arr.length; i++) {
+      while (!arr[i].startsWith(prefix)) {
+        prefix = prefix.slice(0, -1);
+        if (!prefix) return '';
+      }
+    }
+    return prefix;
+  }
 
   // Keep focus on input when clicking terminal
   document.getElementById('terminal').addEventListener('click', (e) => {
@@ -272,11 +478,29 @@ const Terminal = (() => {
       input.disabled = false;
       isStreaming = false;
       input.focus();
-    } catch (err) {
+
+      // Deep link: if URL has a hash, run the matching command
+      const initial = hashToCommand(location.hash);
+      if (initial) {
+        suppressHashSync = true;
+        await execute(initial);
+        suppressHashSync = false;
+      }
+    } catch {
       const block = addOutputBlock();
       block.textContent = 'Welcome to DankSite. Type "help" to get started.';
     }
   }
+
+  // Respond to back/forward navigation between deep links
+  window.addEventListener('hashchange', () => {
+    if (isStreaming) return;
+    const cmd = hashToCommand(location.hash);
+    if (cmd) {
+      suppressHashSync = true;
+      execute(cmd).finally(() => { suppressHashSync = false; });
+    }
+  });
 
   init();
 

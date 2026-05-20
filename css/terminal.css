@@ -5,6 +5,19 @@
   box-sizing: border-box;
 }
 
+/* Visually hidden but available to assistive tech */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 :root {
   --bg: #1a1a2e;
   --bg-header: #16162a;
@@ -166,6 +179,21 @@ a:hover {
   background: var(--selection);
 }
 
+/* === Ghost / inline "did you mean" suggestion === */
+.ghost-suggestion {
+  color: var(--muted);
+  opacity: 0.6;
+  white-space: nowrap;
+  pointer-events: none;
+  font-family: var(--font);
+  font-size: 14px;
+  margin-left: 4px;
+}
+
+.ghost-suggestion:empty {
+  display: none;
+}
+
 /* === Streaming Cursor === */
 .streaming-cursor {
   display: inline-block;
@@ -261,5 +289,18 @@ a:hover {
 
   .header-title {
     font-size: 10px;
+  }
+}
+
+/* === Reduced motion === */
+@media (prefers-reduced-motion: reduce) {
+  .streaming-cursor {
+    animation: none;
+  }
+  #terminal-output {
+    scroll-behavior: auto;
+  }
+  .chip {
+    transition: none;
   }
 }
