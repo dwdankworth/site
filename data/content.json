@@ -1,15 +1,13 @@
 {
   "name": "Whitney Dankworth",
   "title": "Data Science • Causal Inference • Applied ML Engineering",
-  "welcome": "Welcome! I'm Whitney Dankworth — a Data Scientist at Microsoft working in causal inference and applied ML engineering, building scalable AI-enabled systems that shape decision-making and targeted messaging for billions of Windows users.\n\nThis portfolio is an interactive terminal. Type a command below to explore.\n\nType 'help' to see available commands.",
+  "welcome": "Welcome! I'm Whitney Dankworth — a Data Scientist at Microsoft working in causal inference and applied ML engineering, building systems that shape decisions and targeted messaging for billions of Windows users.\n\nThis portfolio is an interactive terminal.\n\nType 'help' to see available commands.",
 
   "bio": {
-    "summary": "Data science can be a catch-all for many tools. My experiences in the statistical, computer science, and business worlds give me the expertise to frame and then tell valuable stories, building the right solutions for the problem at hand. I focus on causal inference, applied ML, and the infrastructure that lets a small team move decisions for billions of users. I strive for technical excellence as well as clear communication to all stakeholders — from engineers to financiers to executives. Every day is an opportunity for learning and growth and to inspire the same in others.",
+    "summary": "Statistics, computer science, and business — three lenses that let me frame problems and tell valuable stories. At Microsoft I work on causal inference, applied ML, and the infrastructure that lets a small team move decisions for billions of users. I value technical excellence and clear communication, from engineers to executives.",
     "education": [
-      "B.S. Business and Political Economy + B.A. Computer Science — New York University (Stern + CAS)",
-      "Mathematics minor",
-      "NYU Stern Student Body President",
-      "Relevant coursework: Big Data Processing, NLP, Data Science for Healthcare, ML Trading Strategies, Agile Development, Data Structures & Algorithms, Negotiations and Consensus Building"
+      "B.S. Business and Political Economy + B.A. Computer Science — New York University (Stern + CAS); Mathematics minor",
+      "NYU Stern Student Body President"
     ],
     "experience": [
       {
@@ -17,11 +15,10 @@
         "company": "Microsoft",
         "period": "Sep 2024 – Present",
         "highlights": [
-          "Built foundational tensor engineering infrastructure powering an ML model that predicts customer retention — featurizing a year of 30 time-dependent signals across 700M Windows devices in a single afternoon. Improved team velocity ~1000% (weeks → days for model iteration) and shipped the first model version to see production use for targeted device messaging. Mentored a PhD intern to train the first Temporal Fusion Transformer (TFT) in the Windows organization.",
-          "Designed a novel system for repeatable + interpretable causal analysis, letting data scientists scale insights across hundreds of analysis variations without sacrificing the interpretability needed to act on the results.",
-          "Apply ML to forecast Windows monthly active devices and the Windows 10/11 mix for Microsoft executives — supporting critical decision scenarios and fiscal-year target setting for hundreds of downstream metrics.",
-          "Analyzed and modeled Windows in-device campaign \"noise\" and its effect on user retention, quantifying the trade-off between short-term revenue lift and long-term product health. Led to ongoing large-scale investment in tools and models for \"right message, right time\" and customer campaign fatigue.",
-          "Windows Data \"AI Enablement Champion\"."
+          "Built tensor engineering infrastructure powering an ML retention model — featurizing 30 time-dependent signals across 700M Windows devices in an afternoon. ~1000% velocity improvement (weeks → days) and shipped the first model version to production for targeted device messaging. Mentored a PhD intern to train the first Temporal Fusion Transformer (TFT) in the Windows organization.",
+          "Designed a novel system for repeatable, interpretable causal analysis — scaling insights across hundreds of analysis variations without losing the interpretability needed to act on them.",
+          "Forecast Windows monthly active devices and Windows 10/11 mix for executive decision scenarios and fiscal-year target setting across hundreds of downstream metrics.",
+          "Modeled Windows in-device campaign \"noise\" and its effect on retention, quantifying the short-term-revenue vs long-term-product-health trade-off. Drove ongoing investment in \"right message, right time\" tooling. Windows Data \"AI Enablement Champion.\""
         ]
       },
       {
@@ -29,9 +26,9 @@
         "company": "Microsoft",
         "period": "Sep 2021 – Sep 2024",
         "highlights": [
-          "Bootstrapped a standardized publishing layer for Windows device data across Microsoft with scalable DataOps, eventually leading a cross-functional team across PM and engineering. Drove a 75% reduction in critical metric pipeline delays, unlocked agentic querying across all Windows datasets, and powered experimentation + targeted campaigns generating hundreds of millions in revenue. As of 2026 it is the most-used data source about Windows devices at Microsoft, producing metrics reported weekly to senior leaders and in public earnings calls.",
-          "Modeled expected post-update device health for the Windows 11 rollout using ensemble ML and pattern mining to ensure upgrade stability. Delivered bi-weekly model-interpretation reviews directly to the head of Windows during the Windows 11 launch.",
-          "Computed and modeled Windows lifetime value for several key executive decision scenarios around Windows 10 end of support."
+          "Bootstrapped the standardized publishing layer for Windows device data across Microsoft (DataOps + cross-functional PM and engineering). 75% reduction in critical metric pipeline delays, hundreds of millions in revenue powered, and — as of 2026 — the most-used Windows device data source at Microsoft, feeding metrics reported weekly to senior leaders and in public earnings calls.",
+          "Modeled expected post-update device health for the Windows 11 rollout (ensemble ML + pattern mining); delivered bi-weekly model-interpretation reviews to the head of Windows during launch.",
+          "Modeled Windows lifetime value for executive decision scenarios around Windows 10 end of support."
         ]
       },
       {
@@ -75,9 +72,9 @@
 
   "skills": {
     "ML & AI": [
-      "Supervised & Unsupervised Learning", "Regression", "Classification",
-      "Clustering", "Time Series Forecasting", "Ensemble Methods",
-      "Pattern Mining", "NLP", "Temporal Fusion Transformers (TFT)",
+      "Supervised & Unsupervised Learning", "Time Series Forecasting",
+      "Ensemble Methods", "Pattern Mining", "NLP",
+      "Temporal Fusion Transformers (TFT)",
       "Double Machine Learning (DoubleML)", "RAG", "MCP", "Agentic Workflows"
     ],
     "Statistics & Experimentation": [
@@ -125,7 +122,7 @@
       "id": 3,
       "category": "work",
       "title": "Agentic Workflows for Time-Series Feature Engineering",
-      "description": "Designed agentic workflows that assist data scientists with time-series feature engineering for traditional ML at massive scale. The system lets a small team featurize a year of dozens of time-dependent signals across hundreds of millions of devices in an afternoon — collapsing model-iteration cycles from weeks to days and freeing data scientists to focus on higher-level problem framing and model development.",
+      "description": "Agentic workflows that assist data scientists with time-series feature engineering at scale — featurizing dozens of signals across hundreds of millions of devices in an afternoon, collapsing model-iteration cycles from weeks to days.",
       "tech": ["MCP", "CLI Plugins", "RAG", "Agentic Skills", "C#", "Python"],
       "link": "#",
       "status": "Production — Microsoft internal"
@@ -134,7 +131,7 @@
       "id": 4,
       "category": "work",
       "title": "Windows Device Semantic Data Model + AI Agents",
-      "description": "Led ideation and execution of a next-generation semantic data model for Windows device data across Microsoft, modernizing infrastructure that had been in place for over a decade. The platform powers retrieval-augmented (RAG) AI agents over primary Windows data assets and is now the most-used Windows device data source at the company — producing metrics reported weekly to senior leaders and in public earnings calls.",
+      "description": "Led ideation and execution of a next-generation semantic data model for Windows device data at Microsoft, modernizing decade-old infrastructure. Powers RAG agents over primary Windows data assets and is now the most-used Windows device data source at the company.",
       "tech": ["Python", "C#", "RAG", "Semantic Modeling", "DataOps", "Data Governance"],
       "link": "#",
       "status": "Production — Microsoft internal"
@@ -143,7 +140,7 @@
       "id": 5,
       "category": "academic",
       "title": "ICU Post-Discharge Mortality Prediction",
-      "description": "Academic project predicting long-term mortality for ICU patients after discharge. Applied classical ML and statistical modeling to clinical time-series data as part of NYU coursework in Data Science for Healthcare.",
+      "description": "Predicting long-term mortality for ICU patients after discharge — classical ML + statistical modeling on clinical time-series data. NYU coursework in Data Science for Healthcare.",
       "tech": ["Python", "scikit-learn", "Healthcare Analytics", "Statistical Modeling"],
       "link": "#",
       "status": "Academic — NYU"
@@ -152,7 +149,7 @@
       "id": 6,
       "category": "academic",
       "title": "News Topic Modeling + Bias Classification at Scale",
-      "description": "Academic project modeling topics and classifying political bias across a large news corpus. Built a distributed pipeline on Hadoop and PySpark for ingestion and feature extraction, with an LSTM-based classifier for bias prediction.",
+      "description": "Topic-modeled and classified political bias across a large news corpus. Distributed Hadoop + PySpark pipeline for ingestion and feature extraction, LSTM classifier for bias prediction.",
       "tech": ["Hadoop", "PySpark", "LSTM", "NLP", "Python"],
       "link": "#",
       "status": "Academic — NYU"
