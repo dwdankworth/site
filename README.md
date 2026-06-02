@@ -1,7 +1,7 @@
-# danksite
+this is my website
 
-Interactive CLI-style portfolio for [Whitney Dankworth](https://www.linkedin.com/in/whitney-dankworth/) — Data Scientist at Microsoft.
+i hope you like it
 
-Live at: <https://dwdankworth.github.io/site>
+will save you an AI slop readme
 
-Type `help` once you land for the full command list.
+OPENAI_API_KEY: [https://dwdankworth.github.io/site](https://dwdankworth.github.io/site)
