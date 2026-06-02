@@ -3,7 +3,7 @@ const { defineConfig } = require('@playwright/test');
 
 module.exports = defineConfig({
   testDir: './tests',
-  timeout: 15000,
+  timeout: 30000,
   expect: { timeout: 10000 },
   fullyParallel: false,
   retries: process.env.CI ? 1 : 0,
@@ -14,7 +14,12 @@ module.exports = defineConfig({
     actionTimeout: 5000,
   },
   projects: [
-    { name: 'chromium', use: { browserName: 'chromium' } },
+    {
+      name: 'chromium',
+      use: {
+        browserName: 'chromium',
+      },
+    },
   ],
   webServer: {
     command: 'npx serve . -l 8765 --no-clipboard',

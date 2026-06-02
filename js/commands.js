@@ -77,14 +77,36 @@ const Commands = (() => {
     const c = await loadContent();
     const lines = ['## Projects\n'];
 
-    c.projects.forEach((p) => {
+    // Group projects by category — academic projects render under Personal with an (Academic) tag.
+    const sections = [
+      { heading: 'Work', categories: ['work'] },
+      { heading: 'Personal', categories: ['personal', 'academic'] }
+    ];
+
+    const renderProject = (p) => {
+      const academicTag = p.category === 'academic' ? ' (Academic)' : '';
       lines.push(`  **[${p.id}]** ${p.title}`);
-      lines.push(`      ${p.tech.join(' • ')}  —  ${p.status}`);
+      lines.push(`      ${p.tech.join(' • ')}  —  ${p.status}${academicTag}`);
       if (p.link && p.link !== '#') {
         lines.push(`      🔗 [${p.link}](${p.link})`);
       }
       lines.push('');
+    };
+
+    sections.forEach(({ heading, categories }) => {
+      const items = c.projects.filter(p => categories.includes(p.category));
+      if (!items.length) return;
+      lines.push(`### ${heading}\n`);
+      items.forEach(renderProject);
     });
+
+    // Fallback: any project missing a recognized category still shows up.
+    const known = new Set(sections.flatMap(s => s.categories));
+    const uncategorized = c.projects.filter(p => !known.has(p.category));
+    if (uncategorized.length) {
+      lines.push(`### Other\n`);
+      uncategorized.forEach(renderProject);
+    }
 
     lines.push(`\n Type \`project <number>\` for full details on a specific project.`);
     return lines.join('\n');
